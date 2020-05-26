@@ -3,15 +3,15 @@ const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require("cookie-parser")
 // const authenticate = require('../middleware/restrict.js');
-// const authRouter = require('../auth/auth-router.js');
-// const usersRouter = require("./users/users-router")
+const authRouter = require('../auth/auth-router.js');
+const usersRouter = require("../users/users-router.js")
 const server = express();
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
 server.use(cookieParser())
-// server.use('/api/auth', authRouter);
-// server.use("/users", usersRouter)
+server.use('/api/auth', authRouter);
+server.use("/users", usersRouter)
 
 server.get("/", (req, res, next) => {
 	res.json({
