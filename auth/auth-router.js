@@ -10,17 +10,19 @@ router.post("/register", async (req, res, next) => {
 	try {
     const { username } = req.body
     console.log('req.body.username', req.body.username)
+    console.log('req.body.password', req.body.password)
+    console.log('req.body.email', req.body.email)
     const user = await Users.findBy({ username }).first()
-    
+    console.log('user', user)
 		if(user){
 			return res.status(409).json({
 				message: "Username is already taken",
 			})
 		}
 
-		if(!user || !req.body.password){
+		if(!req.body.username || !req.body.password || !req.body.password){
 			return res.status(409).json({
-				message: "Must enter username and password",
+				message: "Must enter username, password, and email",
 			})
 		}
 

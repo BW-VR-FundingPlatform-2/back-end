@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const cookieParser = require("cookie-parser")
 // const authenticate = require('../middleware/restrict.js');
 const authRouter = require('../auth/auth-router.js');
-const usersRouter = require("./users/users-router")
+const usersRouter = require("../users/users-router.js")
 const server = express();
 server.use(helmet());
 server.use(cors());

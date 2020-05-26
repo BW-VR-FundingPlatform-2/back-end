@@ -13,7 +13,7 @@ function restrict(/*role = "normal"*/) {
 				return res.status(401).json(authError)
 			}
 
-			jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
+			jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {git 
 				if (err /*|| decodedPayload.userRole !== role*/) {
 					return res.status(401).json(authError)
 				}

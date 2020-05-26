@@ -5,3 +5,4 @@ exports.seed = async (knex) => {
 		{ username: "JackDoe", email: "jack@doe.com", password: "asdf123"},
 	])
 }
+
