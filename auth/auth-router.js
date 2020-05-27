@@ -88,10 +88,10 @@ router.get("/logout", restrict(), (req, res, next) => {
     // but it becomes useless to them once the session is deleted server-side.
     console.log("about to destroy session")
 	// req.session.destroy((err) => {
-		if (err) {
-            console.log("error destroying")
-			next(err)
-        } 
+		// if (err) {
+        //     console.log("error destroying")
+		// 	next(err)
+        // } 
         // else {
     //         console.log("no error destroying")
 	// 		res.json({
