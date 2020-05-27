@@ -25,8 +25,10 @@ router.post("/register", async (req, res, next) => {
 				message: "Must enter username, password, and email",
 			})
 		}
-
-		res.status(201).json(await Users.add(req.body))
+        await Users.add(req.body)
+		res.status(201).json({
+            message: `Register success.`
+        })
 	} catch(err) {
 		next(err)
 	}
@@ -53,7 +55,8 @@ router.post("/login", async (req, res, next) => {
 		// since bcrypt hashes generate different results due to the salting,
 		// we rely on the magic internals to compare hashes rather than doing it
 		// manually with "!=="
-		const passwordValid = await bcrypt.compare(req.body.password, user.password)
+        const passwordValid = await bcrypt.compare(req.body.password, user.password)
+        console.log("passwordValid", passwordValid)
 		if (!passwordValid) {
 			return res.status(401).json(authError)
 		}
@@ -70,13 +73,15 @@ router.post("/login", async (req, res, next) => {
 
 		const tokenPayload = {
 			userId: user.id,
-			userRole: "admin", //this would normally come from the database
+			// userRole: "admin", 
 			}
 
-		res.cookie("token", jwt.sign(tokenPayload, process.env.JWT_SECRET))
+        //res.cookie("token", jwt.sign(tokenPayload, process.env.JWT_SECRET))
+        const token = jwt.sign(tokenPayload, process.env.JWT_SECRET)
 		res.json({
-			message: `Welcome ${user.username}!`,
-			// token: jwt.sign(tokenPayload, process.env.JWT_SECRET),
+            message: `Welcome ${user.username}!`,
+            token: token,
+			//token: jwt.sign(tokenPayload, process.env.JWT_SECRET),
 		})
 	} catch(err) {
 		next(err)
