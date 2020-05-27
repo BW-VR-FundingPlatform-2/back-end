@@ -4,7 +4,7 @@ const restrict = require("../middleware/restrict")
 
 const router = express.Router()
 
-router.get("/", restrict(/*"admin"*/), async (req, res, next) => {
+router.get("/", restrict("admin"), async (req, res, next) => {
 	try {
 		res.json(await Users.find())
 	} catch(err) {
