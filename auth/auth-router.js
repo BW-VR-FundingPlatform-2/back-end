@@ -46,8 +46,9 @@ router.post("/login", async (req, res, next) => {
 	}
 
 	try {
-        const user = await Users.findBy({ username: req.body.username }).first()
-        console.log("user", user)
+        console.log("req.body.username", req.body.username)
+        const user = await Users.findBy( { username: req.body.username }).first()
+        console.log("console user:", user)
 		if (!user) {
 			return res.status(401).json(authError)
 		}
@@ -56,7 +57,7 @@ router.post("/login", async (req, res, next) => {
 		// we rely on the magic internals to compare hashes rather than doing it
 		// manually with "!=="
         const passwordValid = await bcrypt.compare(req.body.password, user.password)
-        console.log("passwordValid", passwordValid)
+        console.log("console passwordValid:", passwordValid)
 		if (!passwordValid) {
 			return res.status(401).json(authError)
 		}
@@ -71,18 +72,41 @@ router.post("/login", async (req, res, next) => {
 			})
 		}
 
-		const tokenPayload = {
-			userId: user.id,
-			// userRole: "admin", 
-			}
+		// const tokenPayload = {
+		// 	userId: user.id,
+		
+        //     }
+        //     console.log("tokenPayload", tokenPayload)
+        //     console.log("JWT_SECRET", JWT_SECRET)
+        
+        // const token = jwt.sign(tokenPayload, process.env.JWT_SECRET)
+        // console.log("console token:", token)
+		// res.json({
+        //     message: `Welcome ${user.username}!`,
+        //     token: token,
+			
+        // })
+        const jwtKey = "my_secret_key"
+        const jwtExpirySeconds = 300
 
-        //res.cookie("token", jwt.sign(tokenPayload, process.env.JWT_SECRET))
-        const token = jwt.sign(tokenPayload, process.env.JWT_SECRET)
-		res.json({
+        const { username, password } = req.body
+        	// Create a new token with the username in the payload
+	// and which expires 300 seconds after issue
+	const token = jwt.sign({ username }, jwtKey, {
+		algorithm: "HS256",
+		expiresIn: jwtExpirySeconds,
+	})
+	console.log("token:", token)
+
+	// set the cookie as the token string, with a similar max age as the token
+	// here, the max age is in milliseconds, so we multiply by 1000
+    res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
+    res.json({
             message: `Welcome ${user.username}!`,
             token: token,
-			//token: jwt.sign(tokenPayload, process.env.JWT_SECRET),
-		})
+			
+        })
+	res.end()
 	} catch(err) {
 		next(err)
 	}
