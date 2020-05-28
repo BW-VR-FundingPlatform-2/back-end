@@ -20,6 +20,19 @@ router.get("/:id/projects", restrict(), validateUserId(), (req, res) => {
 		})
 })
 
+router.get("/projects", (req, res) => {
+	projects.find()
+		.then((projects) => {
+			res.status(200).json(projects)
+		})
+		.catch((error) => {
+			console.log(error)
+			res.status(500).json({
+				message: "Could not get projects",
+			})
+		})
+})
+
 // Since we're now dealing with two IDs, a user ID and a project ID,
 // we have to switch up the URL parameter names.
 // id === user ID and projectId === project ID
@@ -40,7 +53,7 @@ router.get("/:id/projects/:projectId", restrict(), validateUserId(), (req, res) 
 })
 
 router.post("/:id/projects", restrict(), validateUserId(), (req, res) => {
-	if (!req.body.name || !req.body.target_funding || !req.body.current_funding) {
+	if (!req.body.name || !req.body.target_funding || req.body.current_funding === "") {
 		// Make sure you have a return statement, otherwise the
 		// function will continue running and you'll see ERR_HTTP_HEADERS_SENT
 		return res.status(400).json({

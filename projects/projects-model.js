@@ -1,14 +1,18 @@
 const db = require("../database/config")
 
-function find(query = {}) {
-	const { page = 1, limit = 100, sortBy = "id", sortDir = "asc" } = query
-	const offset = limit * (page - 1)
+// function find(query = {}) {
+// 	const { page = 1, limit = 100, sortBy = "id", sortDir = "asc" } = query
+// 	const offset = limit * (page - 1)
 
-	return db("users")
-		.orderBy(sortBy, sortDir)
-		.limit(limit)
-		.offset(offset)
-		.select()
+// 	return db("users")
+// 		.orderBy(sortBy, sortDir)
+// 		.limit(limit)
+// 		.offset(offset)
+// 		.select()
+// }
+
+function find() {
+	return db("projects").select("name", "target_funding", "current_funding")
 }
 
 function findById(id) {
