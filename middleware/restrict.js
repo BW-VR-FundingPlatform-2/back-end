@@ -8,7 +8,7 @@ function restrict(/*role = "admin"*/) {
 
 		try {
 			console.log(req.headers)
-            const token = req.cookies.token
+            const token = req.headers.authorization
             console.log("token", token)
 			if(!token){
                 console.log("no token")
@@ -16,6 +16,8 @@ function restrict(/*role = "admin"*/) {
 			}
 
 			jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
+                console.log("error", err)
+                
 				if (err /*|| decodedPayload.userRole !== role*/) {
                     console.log("req.token", req.token)
 					return res.status(401).json(authError)

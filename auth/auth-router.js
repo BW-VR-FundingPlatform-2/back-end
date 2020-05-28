@@ -86,11 +86,11 @@ router.post("/login", async (req, res, next) => {
         //     token: token,
 			
         // })
-        const jwtKey = "my_secret_key"
+        const jwtKey = process.env.JWT_SECRET
         const jwtExpirySeconds = 300
 
         const { username, password } = req.body
-        	// Create a new token with the username in the payload
+    // Create a new token with the username in the payload
 	// and which expires 300 seconds after issue
 	const token = jwt.sign({ username }, jwtKey, {
 		algorithm: "HS256",

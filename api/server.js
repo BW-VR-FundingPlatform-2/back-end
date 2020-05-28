@@ -5,13 +5,15 @@ const cookieParser = require("cookie-parser")
 // const authenticate = require('../middleware/restrict.js');
 const authRouter = require('../auth/auth-router.js');
 const usersRouter = require("../users/users-router.js")
+const projectsRouter = require("../projects/projects-router.js")
 const server = express();
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
 server.use(cookieParser())
 server.use('/api/auth', authRouter);
-server.use("/users", usersRouter)
+server.use("/api/users", usersRouter)
+server.use("/api/users", projectsRouter)
 
 server.get("/", (req, res, next) => {
 	res.json({
