@@ -87,7 +87,7 @@ router.post("/login", async (req, res, next) => {
 			
         // })
         const jwtKey = process.env.JWT_SECRET
-        const jwtExpirySeconds = 300
+        const jwtExpirySeconds = 3000
 
         const { username, password } = req.body
     // Create a new token with the username in the payload
