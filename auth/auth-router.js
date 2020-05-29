@@ -34,11 +34,11 @@ router.post("/register", async (req, res, next) => {
 	}
 })
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", restrict(), async (req, res, next) => {
 	const authError = {
 		message: "Invalid Credentials",
 	}
-
+    console.log("inside login")
 	if(!req.body.username || !req.body.password){
 		return res.status(409).json({
 			message: "Must enter username and password",
