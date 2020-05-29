@@ -26,8 +26,10 @@ router.post("/register", async (req, res, next) => {
 			})
 		}
         await Users.add(req.body)
+        const newUser = user.findBy({username: req.body.username})
 		res.status(201).json({
-            message: `Register success.`
+            message: `Register success.`,
+            newUser: newUser,
         })
 	} catch(err) {
 		next(err)
@@ -98,13 +100,13 @@ router.post("/login", async (req, res, next) => {
 
 	// set the cookie as the token string, with a similar max age as the token
 	// here, the max age is in milliseconds, so we multiply by 1000
-    res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
+    res.cookie("token", token)
     res.status(200).json({
             message: `Welcome ${user.username}!`,
             token: token,
 			
         })
-	res.end()
+	// res.end()
 	} catch(err) {
 		next(err)
 	}
