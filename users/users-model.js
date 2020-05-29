@@ -5,7 +5,7 @@ async function add(user) {
 	// hash the password with a time complexity of 8
 	user.password = await bcrypt.hash(user.password, 8)
 
-	const [id] = await db("users").insert(user)
+	const id = await db("users").insert(user)
 	return findById({id})
 }
 
