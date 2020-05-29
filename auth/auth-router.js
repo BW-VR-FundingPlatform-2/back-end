@@ -8,11 +8,11 @@ const jwt = require("jsonwebtoken")
 
 router.post("/register", async (req, res, next) => {
 	try {
-    const { username } = req.body
+    // const { username } = req.body
     console.log('req.body.username', req.body.username)
     console.log('req.body.password', req.body.password)
     console.log('req.body.email', req.body.email)
-    const user = await Users.findBy({ username }).first()
+    const user = await Users.findBy({ username: req.body.username }).first()
     console.log('user', user)
 		if(user){
 			return res.status(409).json({
@@ -34,7 +34,7 @@ router.post("/register", async (req, res, next) => {
 	}
 })
 
-router.post("/login", restrict(), async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
 	const authError = {
 		message: "Invalid Credentials",
 	}
@@ -50,7 +50,9 @@ router.post("/login", restrict(), async (req, res, next) => {
         const user = await Users.findBy( { username: req.body.username }).first()
         console.log("console user:", user)
 		if (!user) {
-			return res.status(401).json(authError)
+			return res.status(401).json({
+                message: "user error"
+            })
 		}
 
 		// since bcrypt hashes generate different results due to the salting,
@@ -59,18 +61,14 @@ router.post("/login", restrict(), async (req, res, next) => {
         const passwordValid = await bcrypt.compare(req.body.password, user.password)
         console.log("console passwordValid:", passwordValid)
 		if (!passwordValid) {
-			return res.status(401).json(authError)
+			return res.status(401).json({
+                message: "password error"
+            })
 		}
 
 		// creates a new session for the user and saves it in memory.
 		// it's this easy since we're using `express-session`
 		// req.session.user = user
-
-		if(!req.body.username || !req.body.password){
-			return res.status(409).json({
-				message: "Must enter username and password",
-			})
-		}
 
 		// const tokenPayload = {
 		// 	userId: user.id,
