@@ -6,7 +6,9 @@ function restrict(/*role = "admin"*/) {
 			message: "Invalid credentials",
 		}
 
+        
 		try {
+           const secret = 'kep it secret' 
 			console.log(req.headers)
             const token = req.headers.authorization
             console.log("token", token)
@@ -15,7 +17,7 @@ function restrict(/*role = "admin"*/) {
 				return res.status(401).json(authError)
 			}
 
-			jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
+			jwt.verify(token, secret, (err, decodedPayload) => {
                 console.log("error", err)
                 
 				if (err /*|| decodedPayload.userRole !== role*/) {
