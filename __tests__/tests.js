@@ -20,10 +20,7 @@ beforeAll((done) => {
     });
 });
 
-
-
 describe('GET /', () => {
-
   // token not being sent - should respond with a 401
   test('It should require authorization', () => {
     return request(app)
@@ -42,9 +39,6 @@ describe('GET /', () => {
         expect(response.type).toBe('application/json');
       });
   });
-
-
-
 });
 
 // need to check tests

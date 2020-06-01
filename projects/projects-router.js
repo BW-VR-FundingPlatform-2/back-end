@@ -40,7 +40,7 @@ router.get("/:id/projects/:projectId", restrict(), validateUserId(), (req, res) 
 	projects.findUserProjectById(req.params.id, req.params.projectId)
 		.then((project) => {
 			if (project) {
-				res.json(project)
+		        res.json(project)
 			} else {
 				res.status(404).json({
 					message: "Project was not found",
@@ -69,6 +69,64 @@ router.post("/:id/projects", restrict(), validateUserId(), (req, res) => {
 			next(error)
 		})
 })
+
+router.delete('/:id/projects/:projectId', restrict(), (req, res, next) => {
+    // do your magic!
+    projects.remove(req.params.projectId)
+      .then((count) => {
+        res.status(200).json({
+          message: "The project has been nuked",
+        })
+      })
+      .catch((error) => {
+        next()
+      })
+  });
+  
+
+//   router.put("/:id/projects/:projectId", restrict(), validateUserId(), (req, res) => {
+// 	projects.findUserProjectById(req.params.id, req.params.projectId)
+// 		.then((project) => {
+// 			if (project) {
+// 				projects.update(req.params.id, req.body)
+//                 .then((newProject) => {
+//                     res.status(200).json(newProject)
+//                     })
+// 			} else {
+// 				res.status(404).json({
+// 					message: "Project was not found",
+// 				})
+// 			}
+// 		})
+// 		.catch((error) => {
+// 			next(error)
+// 		})
+// })
+
+router.put("/:id/projects/:projectId", restrict(), validateUserId(), (req, res) => {
+	projects.update(req.params.projectId, req.body)
+      .then((project) => {
+        res.status(200).json(project)
+      })
+      .catch((error) => {
+        next(error)
+      })
+		
+})
+
+
+
+
+//   router.put('/:id', validateUserData(), validateUserId(), (req, res) => {
+    
+//     users.update(req.params.id, req.body)
+//       .then((user) => {
+//         res.status(200).json(user)
+//       })
+//       .catch((error) => {
+//         next(error)
+//       })
+//   });
 
 function validateUserData() {
 	return (req, res, next) => {
