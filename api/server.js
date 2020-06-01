@@ -16,7 +16,7 @@ server.use("/api/users", usersRouter)
 server.use("/api/users", projectsRouter)
 
 server.get("/", (req, res, next) => {
-	res.json({
+	res.status(200).json({
 		message: "Welcome to our API",
 	})
 })

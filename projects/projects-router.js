@@ -7,7 +7,7 @@ const router = express.Router()
 // Since projects in this case is a sub-resource of the user resource,s
 // include it as a sub-route. If you list all of a users projects, you
 // don't want to see projects from another user.
-router.get("/:id/projects", restrict(), validateUserId(), (req, res) => {
+router.get("/:id/projects", validateUserId(), (req, res) => {
 	projects.findUserProjects(req.params.id)
 		.then((projects) => {
 			res.status(200).json(projects)

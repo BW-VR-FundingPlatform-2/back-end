@@ -79,7 +79,8 @@ function generateToken(user) {
         subject: user.id,
         username: user.username
     }
-    const secret = 'kep it a secret'
+    // const secret = process.env.JWT_SECRET || 'keep it a secret, keep it safe'
+    const secret = 'kep it secret'
     const options = {
         expiresIn: '1h'
     }
