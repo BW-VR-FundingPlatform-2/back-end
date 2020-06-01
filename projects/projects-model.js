@@ -3,7 +3,6 @@ const db = require("../database/config")
 // function find(query = {}) {
 // 	const { page = 1, limit = 100, sortBy = "id", sortDir = "asc" } = query
 // 	const offset = limit * (page - 1)
-
 // 	return db("users")
 // 		.orderBy(sortBy, sortDir)
 // 		.limit(limit)
@@ -21,23 +20,29 @@ function findById(id) {
 		.first()
 }
 
+
+function findProjectById(id) {
+	return db("projects")
+		.where({ id })
+		.first()
+}
+
 async function add(hub) {
 	const [id] = await db("users").insert(hub)
 	return findById(id)
 }
 
 function remove(id) {
-	return db("users")
+	return db("projects")
 		.where({ id })
 		.del()
 }
 
 async function update(id, changes) {
-	await db("users")
+	await db("projects")
 		.where({ id })
 		.update(changes)
-
-	return findById(id)
+	return findProjectById(id)
 }
 
 function findUserProjects(userId) {
@@ -68,5 +73,6 @@ module.exports = {
 	update,
 	findUserProjects,
 	findUserProjectById,
-	addUserProject,
+    addUserProject,
+    findProjectById,
 }
