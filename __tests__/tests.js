@@ -38,8 +38,14 @@ describe('GET /', () => {
         expect(response.statusCode).toBe(200);
         expect(response.type).toBe('application/json');
       });
-  });
-});
 
+    
+    })
+
+
+
+
+});
+  
 // need to check tests
 // need to check that front end has what they need: ie a description saved in database not just title of project
