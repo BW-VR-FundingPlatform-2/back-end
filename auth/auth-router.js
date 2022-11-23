@@ -179,7 +179,7 @@ router.get("/logout", restrict(), (req, res, next) => {
     // })
     delete req.session
     res.status(200).json({
-        messagee: "Logged out",
+        message: "Logged out",
     })
 
 })
